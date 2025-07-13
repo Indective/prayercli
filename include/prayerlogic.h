@@ -8,9 +8,10 @@
 class prayerlogic
 {
 private:
-    /* data */
-public:
+    std::string run_py_command(const std::vector<std::string> tokens);
     std::map<std::string,std::string> parse_python_data(const std::vector<std::string> tokens);
+public:
+    void display_data(const std::vector<std::string> tokens);
 };
 
 
