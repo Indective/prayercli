@@ -2,7 +2,7 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <filesystem>
-
+#include <cstdlib>
 
 using json = nlohmann::json;
 namespace fs =  std::filesystem;
@@ -47,3 +47,10 @@ void prayerlogic::display_data(const std::vector<std::string> tokens)
     }
 }
 
+void prayerlogic::random_hadith(const std::vector<Hadith> hadiths)
+{
+    int random = (rand() % hadiths.size()) + 1;
+    auto hadith = hadiths[random];
+    std::cout << hadith.text << std::endl;
+    std::cout << hadith.source << std::endl;
+}
