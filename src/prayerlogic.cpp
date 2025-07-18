@@ -54,3 +54,16 @@ void prayerlogic::random_hadith(const std::vector<Hadith> hadiths)
     std::cout << hadith.text << std::endl;
     std::cout << hadith.source << std::endl;
 }
+
+void prayerlogic::clearscreen()
+{
+    #ifdef _WIN32
+        if (std::getenv("TERM")) {
+            std::cout << "\033[2J\033[H" << std::flush;
+        } else {
+            system("cls");
+        }
+    #else
+        std::cout << "\033[2J\033[H" << std::flush;
+    #endif  
+}

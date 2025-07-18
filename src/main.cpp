@@ -117,6 +117,7 @@ int main()
     {
         std::cout << std::endl << ">> ";
         std::getline(std::cin,command);
+        parser.print_error_messages(commands,command);
         std::vector<std::string> tokens = parser.tokenize(command);
     }
     
