@@ -3,6 +3,7 @@
 #include <sstream>
 #include <iomanip> // for std::quoted
 #include <map>
+#include <vector>
 
 std::vector<std::string> commandparsing::tokenize(const std::string &command)
 {
@@ -15,45 +16,57 @@ std::vector<std::string> commandparsing::tokenize(const std::string &command)
     }
 
     return tokens;
+
 }
 
-int commandparsing::check_command_syntax(const std::map<std::string, std::string> commands , const std::string &command)
+CommandError commandparsing::check_command_syntax(const std::map<std::string, std::string> &commands , const std::vector<std::string> tokens)
 {
-    // 0 : no error
-    // 1 : too few arguments
-    // 2 : unkown command
-    
-    std::vector<std::string> tokens = tokenize(command);
+    // Error codes:
+    // 0 = no error
+    // 1 = too few arguments
+    // 2 = unknown command
 
-    if(tokens[0] != "prayer")
+    // Must have at least one token to check the base command
+    if (tokens.empty() || tokens[0] != "prayer")
     {
-        return 2;
+        return CommandError::UNKOWN_COMMAND;
     }
-    if(tokens[1] == "prayertimes" && tokens.size() < 4)
+
+    // Must have at least 2 tokens: "prayer <subcommand>"
+    if (tokens.size() < 2)
     {
-        return 1;
+        return CommandError::TOO_FEW_ARGUMENTS;
     }
-    for(auto i : commands)
+
+    const std::string &subcommand = tokens[1];
+
+    // Check if subcommand exists
+    if (commands.find(subcommand) == commands.end())
     {
-        if(i.first == tokens[0]) // all commands do not take any arguments except "prayertimes"
-        {
-            return 0;
-        }
+        return CommandError::UNKOWN_COMMAND;
     }
-    return 2;
+
+    // Special case: "prayertimes" requires at least 4 tokens
+    if (subcommand == "prayertimes" && tokens.size() < 4)
+    {
+        return CommandError::TOO_FEW_ARGUMENTS;
+    }
+
+    return CommandError::OK;
 }
 
-void commandparsing::print_error_messages(const std::map<std::string, std::string> commands, const std::string &command)
+void commandparsing::print_error_messages(const std::map<std::string, std::string> &commands, const std::vector<std::string> tokens)
 {
-    int error = check_command_syntax(commands,command);
-    if(error == 2)
+    CommandError error = check_command_syntax(commands,tokens);
+    if(error == CommandError::UNKOWN_COMMAND)
     {
         std::cerr << "Unkown command." << std::endl;
         return;
     }
-    else if(error == 1)
+    else if(error == CommandError::TOO_FEW_ARGUMENTS)
     {
         std::cout << "too few arguments." << std::endl;
         return;
+
     }
 }

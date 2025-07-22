@@ -1,5 +1,4 @@
-#ifndef AUDIOPLAYER_H
-#define AUDIOPLAYER_H
+#pragma once
 
 class audioplayer
 {
@@ -10,6 +9,3 @@ public:
     void play_sleep_athkar();
 };
 
-
-
-#endif

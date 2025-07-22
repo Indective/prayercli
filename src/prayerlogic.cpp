@@ -9,7 +9,7 @@ namespace fs =  std::filesystem;
 
 std::string prayerlogic::run_py_command(const std::vector<std::string> tokens)
 {
-    std::string command = "python3 fetchdata.py " + tokens[1] + " " + tokens[2];
+    std::string command = "python3 fetchdata.py " + tokens[2] + " " + tokens[3];
     std::array<char, 128> buffer;
     std::string result;
 
@@ -21,6 +21,7 @@ std::string prayerlogic::run_py_command(const std::vector<std::string> tokens)
     }
 
     pclose(pipe);
+
     return result;
 }
 
@@ -50,7 +51,7 @@ void prayerlogic::display_data(const std::vector<std::string> tokens)
 void prayerlogic::random_hadith(const std::vector<Hadith> hadiths)
 {
     int random = (rand() % hadiths.size()) + 1;
-    auto hadith = hadiths[random];
+    auto hadith = hadiths.at(random);
     std::cout << hadith.text << std::endl;
     std::cout << hadith.source << std::endl;
 }
@@ -66,4 +67,11 @@ void prayerlogic::clearscreen()
     #else
         std::cout << "\033[2J\033[H" << std::flush;
     #endif  
+}
+
+void prayerlogic::excute_commands(const std::vector<std::string> tokens, const std::vector<Hadith> hadiths)
+{
+    if(tokens[1] == "prayertimes") {display_data(tokens);}
+    else if(tokens[1] == "hadith") {random_hadith(hadiths);}
+    else if(tokens[1] == "cls") {clearscreen();}
 }
