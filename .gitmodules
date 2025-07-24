@@ -1,6 +1,6 @@
 [submodule "libs/json"]
 	path = libs/json
 	url = https://github.com/nlohmann/json.git
-[submodule "libs/audio"]
-	path = libs/audio
-	url = https://github.com/mackron/miniaudio
+[submodule "libs/sound"]
+	path = libs/sound
+	url = https://github.com/jpvanoosten/Audio.git
