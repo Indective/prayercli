@@ -1,4 +1,5 @@
 #include "prayerlogic.h"
+#include "audioplayer.h"
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <filesystem>
@@ -6,6 +7,7 @@
 
 using json = nlohmann::json;
 namespace fs =  std::filesystem;
+audioplayer audio;
 
 std::string prayerlogic::run_py_command(const std::vector<std::string> tokens)
 {
@@ -74,4 +76,7 @@ void prayerlogic::excute_commands(const std::vector<std::string> tokens, const s
     if(tokens[1] == "prayertimes") {display_data(tokens);}
     else if(tokens[1] == "hadith") {random_hadith(hadiths);}
     else if(tokens[1] == "cls") {clearscreen();}
+    else if(tokens[1] == "exit") {exit(0);}
+    else if(tokens[1] == "ruqia") {audio.play_ruqia();}
+    else if(tokens[1] == "morning") {audio.play_morning_athkar();}
 }

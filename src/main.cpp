@@ -31,7 +31,9 @@ int main()
             {"surah", "prints a random surah for you to read"},
             {"sleep" , "plays athkar-alnawm"},
             {"morning","plays athkar-alsabah"},
-            {"ruqia", "plays the ruqia-alsharaia"}
+            {"ruqia", "plays the ruqia-alsharaia"},
+            {"cls", "clears the screen"},
+            {"exit", "closes program"}
         };
 
         std::vector<Hadith> hadiths = {
