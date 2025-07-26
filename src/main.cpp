@@ -24,7 +24,7 @@ int main()
         fs::current_path(path);
         std::vector<std::string> tokens;
         int error;
-
+        
         std::map<std::string, std::string> commands = {
             {"prayertimes","prints the prayer times for a specified date and city"},
             {"hadith", "prints a random hadith"},
