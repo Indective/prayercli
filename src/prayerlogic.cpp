@@ -79,4 +79,10 @@ void prayerlogic::excute_commands(const std::vector<std::string> tokens, const s
     else if(tokens[1] == "exit") {exit(0);}
     else if(tokens[1] == "ruqia") {audio.play_ruqia();}
     else if(tokens[1] == "morning") {audio.play_morning_athkar();}
+    else if(tokens[1] == "azan") {audio.play_azan();}
+    else if(tokens[1] == "para")
+    {
+        if(tokens[2] == "29"){audio.play_para_29();}
+        else if(tokens[2] == "1") {audio.play_para_1();}
+    }
 }

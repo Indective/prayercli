@@ -33,7 +33,8 @@ int main()
             {"morning","plays athkar-alsabah"},
             {"ruqia", "plays the ruqia-alsharaia"},
             {"cls", "clears the screen"},
-            {"exit", "closes program"}
+            {"exit", "closes program"},
+            {"para", "plays para number given by user (1 and 29 avaliable for now)"}
         };
 
         std::vector<Hadith> hadiths = {

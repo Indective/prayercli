@@ -46,8 +46,14 @@ CommandError commandparsing::check_command_syntax(const std::map<std::string, st
         return CommandError::UNKOWN_COMMAND;
     }
 
-    // Special case: "prayertimes" requires at least 4 tokens
+    // Special case: "prayertimes" requires 4 tokens
     if (subcommand == "prayertimes" && tokens.size() < 4)
+    {
+        return CommandError::TOO_FEW_ARGUMENTS;
+    }
+
+    // Special case: "para" requires 3 tokens
+    if (subcommand == "para" && tokens.size() < 4)
     {
         return CommandError::TOO_FEW_ARGUMENTS;
     }
