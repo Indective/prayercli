@@ -11,11 +11,9 @@ enum class CommandError
     UNKOWN_COMMAND = 2
 };
 
-class commandparsing
+namespace commandparsing
 {
-public:
     std::vector<std::string> tokenize(const std::string &command);
     CommandError check_command_syntax(const std::map<std::string, std::string>& commands , const std::vector<std::string> tokens);
     void print_error_messages(const std::map<std::string,std::string>& commands,const std::vector<std::string> tokens);
-
 };

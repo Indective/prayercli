@@ -1,5 +1,5 @@
-#include "commandparsing.h"
-#include "prayerlogic.h"
+#include "commandparsing.hpp"
+#include "prayerlogic.hpp"
 #include <iostream>
 #include <filesystem>
 #include <map>
@@ -12,8 +12,6 @@ int main()
 {
     try
     {
-        prayerlogic prayer;
-        commandparsing parser;
 
         std::string date;
         std::string command;
@@ -124,15 +122,15 @@ int main()
         {
             std::cout << std::endl << ">> ";
             std::getline(std::cin,command);
-            tokens = parser.tokenize(command);
-            CommandError error = parser.check_command_syntax(commands, tokens);
+            tokens = commandparsing::tokenize(command);
+            CommandError error = commandparsing::check_command_syntax(commands, tokens);
             if(error == CommandError::OK)
             {
-                prayer.excute_commands(tokens, hadiths);
+                prayerlogic::excute_commands(tokens, hadiths);
             }
             else
             {
-                parser.print_error_messages(commands, tokens);
+                commandparsing::print_error_messages(commands, tokens);
             }
 
         }
