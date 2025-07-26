@@ -13,11 +13,13 @@ set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
 # Include directories
 include_directories(${CMAKE_SOURCE_DIR}/include)
 add_subdirectory(lib/json) 
+add_subdirectory(lib/SFML) 
 
 # Add the executable
 file(GLOB_RECURSE SOURCES ${SOURCE_DIR}/*.cpp)
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(Prayercli PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(Prayercli PRIVATE sfml-audio)
 
 
 
