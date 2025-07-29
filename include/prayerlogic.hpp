@@ -16,6 +16,7 @@ namespace prayerlogic
     void display_data(const std::vector<std::string> tokens);
     void random_hadith(const std::vector<Hadith> hadiths);
     void clearscreen();
+    void play_audio(const std::vector<std::string> tokens);
     void excute_commands(const std::vector<std::string>& tokens,const std::vector<Hadith> hadiths);
 };
 

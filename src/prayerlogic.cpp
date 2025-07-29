@@ -1,5 +1,5 @@
 #include "prayerlogic.hpp"
-#include "audioplayer.hpp"
+#include "SFML/Audio.hpp"
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <filesystem>
@@ -7,7 +7,6 @@
 
 using json = nlohmann::json;
 namespace fs =  std::filesystem;
-audioplayer audio;
 
 namespace
 {
@@ -49,56 +48,86 @@ namespace
 
 }
 
-namespace prayerlogic
+
+void prayerlogic::display_data(const std::vector<std::string> tokens)
 {
-    void display_data(const std::vector<std::string> tokens)
+    std::map<std::string,std::string> prayertimes = parse_python_data(tokens);
+    for (auto &i : prayertimes)
     {
-        std::map<std::string,std::string> prayertimes = parse_python_data(tokens);
-        for (auto &i : prayertimes)
-        {
-            std::cout << i.first << "  -  " << i.second << std::endl;
-        }
+        std::cout << i.first << "  -  " << i.second << std::endl;
     }
+}
 
-    void clearscreen()
-    {
-        #ifdef _WIN32
-            if (std::getenv("TERM")) {
-                std::cout << "\033[2J\033[H" << std::flush;
-            } else {
-                system("cls");
-            }
-        #else
+void prayerlogic::clearscreen()
+{
+    #ifdef _WIN32
+        if (std::getenv("TERM")) {
             std::cout << "\033[2J\033[H" << std::flush;
-        #endif  
-    }
-
-    void random_hadith(const std::vector<Hadith> hadiths)
-    {
-        std::random_device rd; 
-        std::mt19937 gen(rd()); 
-        std::uniform_int_distribution<> distrib(1, hadiths.size());
-        int rand = distrib(gen);
-        Hadith hadith = hadiths.at(rand);
-        std::cout << hadith.text << std::endl;
-        std::cout << hadith.source << std::endl;
-    }   
-
-    void excute_commands(const std::vector<std::string>& tokens, const std::vector<Hadith> hadiths)
-    {
-        if(tokens[1] == "prayertimes") {display_data(tokens);}
-        else if(tokens[1] == "hadith") {random_hadith(hadiths);}
-        else if(tokens[1] == "cls") {clearscreen();}
-        else if(tokens[1] == "exit") {exit(0);}
-        else if(tokens[1] == "ruqia") {audio.play_audio(tokens);}
-        else if(tokens[1] == "morning") {audio.play_audio(tokens);}
-        else if(tokens[1] == "azan") {audio.play_audio(tokens);}
-        else if(tokens[1] == "para")
-        {
-            if(tokens[2] == "29"){audio.play_audio(tokens);}
-            else if(tokens[2] == "1") {audio.play_audio(tokens);}
+        } else {
+            system("cls");
         }
+    #else
+        std::cout << "\033[2J\033[H" << std::flush;
+    #endif  
+}
+
+void prayerlogic::random_hadith(const std::vector<Hadith> hadiths)
+{
+    std::random_device rd; 
+    std::mt19937 gen(rd()); 
+    std::uniform_int_distribution<> distrib(1, hadiths.size());
+    int rand = distrib(gen);
+    Hadith hadith = hadiths.at(rand);
+    std::cout << hadith.text << std::endl;
+    std::cout << hadith.source << std::endl;
+}   
+
+void prayerlogic::play_audio(const std::vector<std::string> tokens)
+{
+    std::string path;
+    if (tokens.at(1) == "para")
+    {
+        path = std::filesystem::current_path().string() + "/Sounds/" + tokens.at(1) + tokens.at(2) +  ".mp3";
     }
+    else
+    {
+        path = std::filesystem::current_path().string() + "/Sounds/" + tokens.at(1) + ".mp3";
+    }
+    sf::Music music;
+
+    if (!music.openFromFile(path)) {
+        std::cerr << "Error loading sound file\n";
+        return;
+    }
+    
+    music.play();
+    std::cout << "Audio playing. Press ENTER to stop...\n";
+
+    // Wait for user to press Enter
+    std::string dummy;
+    std::getline(std::cin, dummy);
+
+    music.stop();
+    std::cout << "Audio stopped.\n";
 
 }
+
+void prayerlogic::excute_commands(const std::vector<std::string>& tokens, const std::vector<Hadith> hadiths)
+{
+    if(tokens[1] == "prayertimes") {display_data(tokens);}
+    else if(tokens[1] == "hadith") {random_hadith(hadiths);}
+    else if(tokens[1] == "cls") {clearscreen();}
+    else if(tokens[1] == "exit") {exit(0);}
+    else if(tokens[1] == "ruqia") {play_audio(tokens);}
+    else if(tokens[1] == "morning") {play_audio(tokens);}
+    else if(tokens[1] == "azan") {play_audio(tokens);}
+    else if(tokens[1] == "para")
+    {
+        if(tokens[2] == "29"){play_audio(tokens);}
+        else if(tokens[2] == "1") {play_audio(tokens);}
+    }
+}
+
+
+
 

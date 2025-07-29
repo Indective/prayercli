@@ -6,6 +6,7 @@ Prayercli is a terminal-based application which foucuses on enhancing the daily 
 
 -  **Fetch prayer times** — Using python and api.aladhan.com , the program fetches prayer times based on the date and location given by user.
 -  **Random hadith** — Displays a random hadith and it's source.
+-  **PLay azan/para/athkar** - plays : para 29/1, morning athkar, azan and ruqia.
 -  **Modular Design** — Organized source code with headers and implementation separated cleanly.
 -  **CMake Build** — Fully CMake-integrated for easy cross-platform building.
 -  **and more to come soon...**
@@ -17,15 +18,14 @@ Prayercli is a terminal-based application which foucuses on enhancing the daily 
 | 
 |── lib                    #external libraries 
 |   └── json
+│   └── SFML
 |
 ├── include                # Header files
-│   ├── audioplayer.h
-│   ├── prayerlogic.h
-│   └── commandparsing.h
+│   ├── prayerlogic.hpp
+│   └── commandparsing.hpp
 |
 ├── src                    # Source code
 │   ├── main.cpp
-│   ├── audioplayer.cpp
 │   ├── commandparsing.cpp
 │   ├── fetchdata.py
 │   └── prayerlogic.cpp
@@ -61,14 +61,17 @@ make
 
 ## 🚀 Usage
 
--  **Command Structure** - "prayer <command name> [args]"
-note : no command takes arguments except prayertimes, which takes the date in a "DD-MM-YYYY" format, and a city name.
+-  **Command Structure** - "prayer [command name] [args]"
+
+note : no command takes arguments except prayertimes and para, prayertimes takes the date in a "DD-MM-YYYY" format, and a city name.
+while para takes 1 argument which is the para number, only 29 and 1 are avaliable for now.
 
 ## 🛠️ Tech Stack
 
 - **C++17**
 - **CMake**
 - **nlohmann/json** (for parsing JSON)
+- **SFML** (for playing sounds)
 
 ## 📄 License
 
