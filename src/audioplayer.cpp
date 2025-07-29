@@ -5,7 +5,15 @@
 
 void audioplayer::play_audio(const std::vector<std::string> tokens)
 {
-    std::string path = std::filesystem::current_path().string() + "/Sounds/" + tokens.at(1) + ".mp3";
+    std::string path;
+    if (tokens.at(1) == "para")
+    {
+        path = std::filesystem::current_path().string() + "/Sounds/" + tokens.at(1) + tokens.at(2) +  ".mp3";
+    }
+    else
+    {
+        path = std::filesystem::current_path().string() + "/Sounds/" + tokens.at(1) + ".mp3";
+    }
     sf::Music music;
 
     if (!music.openFromFile(path)) {

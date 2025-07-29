@@ -8,22 +8,19 @@
 
 namespace fs = std::filesystem;
 
+
 int main()
 {
     try
     {
-
-        std::string date;
-        std::string command;
-        std::string city;
+        std::string input;
         std::string path = fs::current_path().parent_path().string();
         fs::current_path(path);
         path = path + "/src";
         fs::current_path(path);
-        std::vector<std::string> tokens;
-        int error;
-        
-        std::map<std::string, std::string> commands = {
+
+        std::vector<command> commands = 
+        {
             {"prayertimes","prints the prayer times for a specified date and city"},
             {"hadith", "prints a random hadith"},
             {"surah", "prints a random surah for you to read"},
@@ -32,8 +29,9 @@ int main()
             {"ruqia", "plays the ruqia-alsharaia"},
             {"cls", "clears the screen"},
             {"exit", "closes program"},
+            {"azan", "plays azan"},
             {"para", "plays para number given by user (1 and 29 avaliable for now)"}
-        };
+        };  
 
         std::vector<Hadith> hadiths = {
             {
@@ -121,10 +119,10 @@ int main()
         while (true)
         {
             std::cout << std::endl << ">> ";
-            std::getline(std::cin,command);
-            tokens = commandparsing::tokenize(command);
-            CommandError error = commandparsing::check_command_syntax(commands, tokens);
-            if(error == CommandError::OK)
+            std::getline(std::cin,input);
+            std::vector<std::string> tokens = commandparsing::tokenize(input);
+            commanderror error = commandparsing::check_command_syntax(commands, tokens);
+            if(error == commanderror::ok)
             {
                 prayerlogic::excute_commands(tokens, hadiths);
             }
